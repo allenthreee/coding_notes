@@ -841,7 +841,7 @@ def now():
 
 
 
-## MMSeg配置
+# MMSeg配置
 
 问题1：pip安装报错
 
@@ -877,6 +877,26 @@ pip3 install mmcv-full==1.2.5+torch1.5.0+cu102 -f https://download.openmmlab.com
 
 ~~~
 1.2.5+torch1.5.0+cu102
+~~~
+
+
+
+
+
+~~~
+python demo/image_demo.py ${IMAGE_FILE} ${CONFIG_FILE} ${CHECKPOINT_FILE} [--device ${DEVICE_NAME}] [--palette-thr ${PALETTE}]
+~~~
+
+**运行image_demo.py**
+
+~~~
+python3 demo/image_demo.py demo/demo.png configs/pspnet/pspnet_r50-d8_512x1024_40k_cityscapes.py checkpoints/pspnet_r50-d8_512x1024_40k_cityscapes_20200605_003338-2966598c.pth --device cpu --palette cityscapes
+~~~
+
+运行**test.py**
+
+~~~
+python3 tools/test.py configs/pspnet/pspnet_r50-d8_512x1024_40k_cityscapes.py checkpoints/pspnet_r50d8_512x1024_40k_cityscapes_20200605_0033382966598c.pth --show
 ~~~
 
 
@@ -1040,3 +1060,15 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 ~~~
 
 momentum——》学习衰减率
+
+
+
+
+
+
+
+# Linux
+
+## linux ln命令
+
+ln -s 源文件 目标文件
