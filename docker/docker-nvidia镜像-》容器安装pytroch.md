@@ -1,3 +1,16 @@
+## Server
+
+~~~
+ssh
+
+ssh ubuntu@192.168.18.50
+输入密码 unitydrive520
+~~~
+
+
+
+
+
 ## 创建container
 
 ~~~

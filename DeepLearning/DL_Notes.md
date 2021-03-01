@@ -839,6 +839,22 @@ def now():
     print('2015-3-25')
 ```
 
+### Argparse
+
+argparse模块是 Python 标准库中推荐的命令行解析模块。
+
+[`argparse`](https://docs.python.org/zh-cn/3.6/library/argparse.html#module-argparse) 模块可以让人轻松编写用户友好的命令行接口。程序定义它需要的参数，然后 [`argparse`](https://docs.python.org/zh-cn/3.6/library/argparse.html#module-argparse) 将弄清如何从 [`sys.argv`](https://docs.python.org/zh-cn/3.6/library/sys.html#sys.argv) 解析出那些参数。 [`argparse`](https://docs.python.org/zh-cn/3.6/library/argparse.html#module-argparse) 模块还会自动生成帮助和使用手册，并在用户给程序传入无效参数时报出错误信息。
+
+~~~
+注解 还有另外两个模块可以完成同样的任务，称为 getopt (对应于 C 语言中的 getopt() 函数) 和被弃用的 optparse。还要注意 argparse 是基于 optparse 的，因此用法与其非常相似。
+~~~
+
+
+
+
+
+
+
 
 
 # MMSeg配置
@@ -895,17 +911,117 @@ python3 demo/image_demo.py demo/demo.png configs/pspnet/pspnet_r50-d8_512x1024_4
 
 运行**test.py**
 
-~~~
+~~~python
 python3 tools/test.py configs/pspnet/pspnet_r50-d8_512x1024_40k_cityscapes.py checkpoints/pspnet_r50d8_512x1024_40k_cityscapes_20200605_0033382966598c.pth --show
 ~~~
 
 
+
+# ML
+
+## 正则化 Regularization
+
+**正则化主要用于避免过拟合的产生和减少网络误差。**
+
+
+
+正则化一般具有如下形式：
+
+![[公式]](https://www.zhihu.com/equation?tex=J%28w%2Cb%29%3D+%5Cfrac%7B1%7D%7Bm%7D+%5Csum_%7Bi%3D1%7D%5E%7Bm%7DL%28f%28x%29%2Cy%29%2B%5Clambda+R%28f%29)
+
+其中，第 1 项是**经验风险**，第 2 项是**正则项**， ![[公式]](https://www.zhihu.com/equation?tex=%CE%BB%E2%89%A50) 为调整两者之间关系的系数。
+
+第 1 项的经验风险较小的模型可能较复杂（有多个非零参数），这时第 2 项的模型复杂度会较大。
+
+常见的有正则项有 **L1 正则** 和 **L2 正则** ，其中 **L2 正则** 的控制过拟合的效果比 **L1 正则** 的好。
+
+**正则化的作用是选择经验风险与模型复杂度同时较小的模型**。 ![[公式]](https://www.zhihu.com/equation?tex=%5E%7B%5B3%5D%7D)
+
+常见的有正则项有 **L1 正则** 和 **L2 正则** 以及 **Dropout** ，其中 **L2 正则** 的控制过拟合的效果比 **L1 正则** 的好。
+
+
+
+### 范数
+
+为什么叫 L1 正则，有 L1、L2 正则 那么有没有 L3、L4 之类的呢？
+
+首先我们补一补课， ![[公式]](https://www.zhihu.com/equation?tex=L_%7Bp%7D) 正则的 L 是指 ![[公式]](https://www.zhihu.com/equation?tex=L_%7Bp%7D) 范数，其定义为：
+
+![[公式]](https://www.zhihu.com/equation?tex=L_%7B0%7D) 范数： ![[公式]](https://www.zhihu.com/equation?tex=%5Cleft+%5C%7C+w+%5Cright+%5C%7C_%7B0%7D+%3D+%5C%23%28i%29%5C+with+%5C+x_%7Bi%7D+%5Cneq+0) *（非零元素的个数）*
+
+![[公式]](https://www.zhihu.com/equation?tex=L_%7B1%7D) 范数： ![[公式]](https://www.zhihu.com/equation?tex=%5Cleft+%5C%7C+w+%5Cright+%5C%7C_%7B1%7D+%3D+%5Csum_%7Bi+%3D+1%7D%5E%7Bd%7D%5Clvert+x_i%5Crvert) *（每个元素绝对值之和）*
+
+![[公式]](https://www.zhihu.com/equation?tex=L_%7B2%7D) 范数： ![[公式]](https://www.zhihu.com/equation?tex=%5Cleft+%5C%7C+w+%5Cright+%5C%7C_%7B2%7D+%3D+%5CBigl%28%5Csum_%7Bi+%3D+1%7D%5E%7Bd%7D+x_i%5E2%5CBigr%29%5E%7B1%2F2%7D) *（欧氏距离）*
+
+![[公式]](https://www.zhihu.com/equation?tex=L_%7Bp%7D) 范数： ![[公式]](https://www.zhihu.com/equation?tex=%5Cleft+%5C%7C+w+%5Cright+%5C%7C_%7Bp%7D+%3D+%5CBigl%28%5Csum_%7Bi+%3D+1%7D%5E%7Bd%7D+x_i%5Ep%5CBigr%29%5E%7B1%2Fp%7D)
+
+在机器学习中，若使用了 ![[公式]](https://www.zhihu.com/equation?tex=%5ClVert+w%5CrVert_p) 作为正则项，我们则说该机器学习任务**引入了** ![[公式]](https://www.zhihu.com/equation?tex=L_%7Bp%7D) **正则项**。
+
+
+
+![img](https://pic3.zhimg.com/80/v2-af9e02d00d9e37cfa0920583cab6d5b6_720w.jpg)
+
+
+
+## 归一化 Normalization
+
+归一化一般是将数据映射到指定的范围，用于去除不同维度数据的量纲以及量纲单位。
+
+常见的映射范围有 [0, 1] 和 [-1, 1] ，最常见的归一化方法就是 **Min-Max 归一化**：
+
+### Min-Max 归一化
+
+![[公式]](https://www.zhihu.com/equation?tex=x_%7Bnew%7D%3D%5Cfrac%7Bx-x_%7Bmin%7D%7D%7Bx_%7Bmax%7D-x_%7Bmin%7D%7D)
+
+举个例子，我们判断一个人的身体状况是否健康，那么我们会采集人体的很多指标，比如说：身高、体重、红细胞数量、白细胞数量等。
+
+一个人身高 180cm，体重 70kg，白细胞计数 ![[公式]](https://www.zhihu.com/equation?tex=7.50%C3%9710%5E%7B9%7D%2FL) ，etc.
+
+衡量两个人的状况时，白细胞计数就会起到主导作用从而**遮盖住其他的特征**，归一化后就不会有这样的问题。
+
+
+
+## 标准化 Normalization
+
+**在这里我们需要强调一下英文翻译的问题，在 Udacity 字幕组中对此进行了探讨：**
+
+> 归一化和标准化的英文翻译是一致的，但是根据其用途（或公式）的不同去理解（或翻译）
+
+下面我们将探讨最常见的标准化方法： **Z-Score 标准化**。
+
+### Z-Score 标准化
+
+![[公式]](https://www.zhihu.com/equation?tex=x_%7Bnew%7D%3D%5Cfrac%7Bx-%5Cmu+%7D%7B%5Csigma+%7D)
+
+其中 ![[公式]](https://www.zhihu.com/equation?tex=%5Cmu) 是样本数据的**均值（mean）**， ![[公式]](https://www.zhihu.com/equation?tex=%5Csigma) 是样本数据的**标准差（std）**。
+
+![img](https://pic3.zhimg.com/80/v2-ee0280ea470db277509e95efce1991f6_720w.jpg)
+
+
+
+上图则是一个散点序列的标准化过程：原图->减去均值->除以标准差。
+
+显而易见，变成了一个**均值为 0 ，方差为 1 的分布**，下图通过 Cost 函数让我们更好的理解标准化的作用。
+
+![img](https://pic3.zhimg.com/80/v2-7f49cde4e78c482421e17721d2e0fc5e_720w.jpg)
+
+
+
+机器学习的目标无非就是不断优化损失函数，使其值最小。在上图中， ![[公式]](https://www.zhihu.com/equation?tex=J%28w%2Cb%29) 就是我们要优化的目标函数
+
+我们不难看出，**标准化后可以更加容易地得出最优参数** ![[公式]](https://www.zhihu.com/equation?tex=w) **和** ![[公式]](https://www.zhihu.com/equation?tex=b) **以及计算出** ![[公式]](https://www.zhihu.com/equation?tex=J%28w%2Cb%29) **的最小值，从而达到加速收敛的效果**
 
 
 
 
 
 # DL
+
+
+
+
+
+## PyTorch
 
 ### torch.randn()
 
@@ -1045,13 +1161,15 @@ Variable 与 Function互连并建立一个非循环图，编码完整的计算�
 
 ![img](https://pic2.zhimg.com/80/v2-0a938a33a77b14171cb17f2bbafc0ba1_720w.jpg)
 
-#### DAG(directed acyclic graph)  有向无环图
+### DAG(directed acyclic graph)  有向无环图
 
 
 
 
 
-#### class torch.nn.Module是所有网络的基类
+### class torch.nn.Module
+
+**torch.nn.Module**是所有网络的基类
 
 
 
@@ -1060,6 +1178,87 @@ optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 ~~~
 
 momentum——》学习衰减率
+
+## Tips
+
+### batchsize
+
+中文翻译为批大小（批尺寸）。在深度学习中，一般采用SGD训练，即每次训练在训练集中取batchsize个样本训练
+
+
+
+### iteration
+
+中文翻译为迭代，1个iteration等于使用batchsize个样本训练一次；一个迭代 = 一个正向通过+一个反向通过
+
+
+
+### epoch
+
+迭代次数，1个epoch等于使用训练集中的全部样本训练一次；一个epoch = 所有训练样本的一个正向传递和一个反向传递
+
+### eg:
+
+训练集有1000个样本，batchsize=10，那么：训练完整个样本集需要：100次iteration，1次epoch。
+
+
+
+## BN
+
+batch normalize
+
+### ICS
+
+internal covatiate shift
+
+在深层网络训练的过程中，由于网络中参数变化而引起内部结点数据分布发生变化的这一过程被称作Internal Covariate Shift。
+
+这句话该怎么理解呢？我们同样以1.1中的图为例，我们定义每一层的线性变换为 ![[公式]](https://www.zhihu.com/equation?tex=Z%5E%7B%5Bl%5D%7D%3DW%5E%7B%5Bl%5D%7D%5Ctimes+input%2Bb%5E%7B%5Bl%5D%7D)，其中 ![[公式]](https://www.zhihu.com/equation?tex=l+) 代表层数；非线性变换为 ![[公式]](https://www.zhihu.com/equation?tex=A%5E%7B%5Bl%5D%7D%3Dg%5E%7B%5Bl%5D%7D%28Z%5E%7B%5Bl%5D%7D%29) ，其中 ![[公式]](https://www.zhihu.com/equation?tex=g%5E%7B%5Bl%5D%7D%28%5Ccdot%29) 为第 ![[公式]](https://www.zhihu.com/equation?tex=l) 层的激活函数。
+
+随着梯度下降的进行，每一层的参数 ![[公式]](https://www.zhihu.com/equation?tex=W%5E%7B%5Bl%5D%7D) 与 ![[公式]](https://www.zhihu.com/equation?tex=b%5E%7B%5Bl%5D%7D) 都会被更新，那么 ![[公式]](https://www.zhihu.com/equation?tex=Z%5E%7B%5Bl%5D%7D) 的分布也就发生了改变，进而 ![[公式]](https://www.zhihu.com/equation?tex=A%5E%7B%5Bl%5D%7D) 也同样出现分布的改变。而 ![[公式]](https://www.zhihu.com/equation?tex=A%5E%7B%5Bl%5D%7D) 作为第 ![[公式]](https://www.zhihu.com/equation?tex=l%2B1) 层的输入，意味着 ![[公式]](https://www.zhihu.com/equation?tex=l%2B1) 层就需要去不停适应这种数据分布的变化，这一过程就被叫做Internal Covariate Shift。
+
+
+
+**ICS带来的问题**
+
+- **1）上层网络需要不停调整来适应输入数据分布的变化，导致网络学习速度的降低**
+- **2）网络的训练过程容易陷入梯度饱和区，减缓网络收敛速度**
+
+
+
+因此引入 **batch normalization**缓解**ICS**所带来的问题
+
+### 白化 whitening
+
+白化（Whitening）是机器学习里面常用的一种规范化数据分布的方法，主要是PCA白化与ZCA白化。白化是对输入数据分布进行变换，进而达到以下两个目的：
+
+- **使得输入特征分布具有相同的均值与方差。**其中PCA白化保证了所有特征分布均值为0，方差为1；而ZCA白化则保证了所有特征分布均值为0，方差相同；
+- **去除特征之间的相关性。**
+
+通过白化操作，我们可以减缓ICS的问题，进而固定了每一层网络输入分布，加速网络训练过程的收敛（LeCun et al.,1998b；Wiesler&Ney,2011）。
+
+#### Batch Normalization提出
+
+既然白化可以解决这个问题，为什么我们还要提出别的解决办法？当然是现有的方法具有一定的缺陷，白化主要有以下两个问题：
+
+- **白化过程计算成本太高，**并且在每一轮训练中的每一层我们都需要做如此高成本计算的白化操作；
+- **白化过程由于改变了网络每一层的分布**，因而改变了网络层中本身数据的表达能力。底层网络学习到的参数信息会被白化操作丢失掉。
+
+既然有了上面两个问题，那我们的解决思路就很简单，一方面，我们提出的normalization方法要能够简化计算过程；另一方面又需要经过规范化处理后让数据尽可能保留原始的表达能力。于是就有了简化+改进版的白化——Batch Normalization。
+
+### batch normalization
+
+#### BN思路
+
+既然白化计算过程比较复杂，那我们就简化一点，比如我们可以尝试单独对每个特征进行normalizaiton就可以了，让每个特征都有均值为0，方差为1的分布就OK。
+
+另一个问题，既然白化操作减弱了网络中每一层输入数据表达能力，那我就再加个线性变换操作，让这些数据再能够尽可能恢复本身的表达能力就好了。
+
+因此，基于上面两个解决问题的思路，作者提出了Batch Normalization，下一部分来具体讲解这个算法步骤。
+
+#### 算法
+
+在深度学习中，由于采用full batch的训练方式对内存要求较大，且每一轮训练时间过长；我们一般都会采用对数据做划分，用mini-batch对网络进行训练。因此，Batch Normalization也就在mini-batch的基础上进行计算。
 
 
 
