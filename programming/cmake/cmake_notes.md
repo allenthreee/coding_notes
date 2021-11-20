@@ -72,6 +72,7 @@ find_package(PCL 1.8 REQUIRED)
 #这里这个路径就是我们上面指定的安装路径
 #好像只要文件夹包含 <package_name>Config.cmake 这个文件就可以，不用精确到最后面的路径
 list(APPEND CMAKE_INCLUDE_PATH "/home/my_libs/allen/pcl-1.10/share/pcl-1.10")
+#这个 NO_MODULE 也很重要，这样才不会用 module mode 去 find_package
 find_package (PCL REQUIRED NO_MODULE)
 ```
 
