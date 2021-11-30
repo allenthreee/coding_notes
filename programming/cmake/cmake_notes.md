@@ -74,6 +74,10 @@ find_package(PCL 1.8 REQUIRED)
 list(APPEND CMAKE_INCLUDE_PATH "/home/my_libs/allen/pcl-1.10/share/pcl-1.10")
 #这个 NO_MODULE 也很重要，这样才不会用 module mode 去 find_package
 find_package (PCL REQUIRED NO_MODULE)
+
+#on the tiny computer
+list(APPEND CMAKE_INCLUDE_PATH "/home/allen/libs_not_default/pcl-1.10.1-install")
+find_package (PCL REQUIRED NO_MODULE)
 ```
 
 这就是今天记录的东西，还是比较感动，加油，you can do it, your are going to be a professional coder.
