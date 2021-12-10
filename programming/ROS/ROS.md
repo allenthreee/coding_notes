@@ -55,9 +55,17 @@ sudo ln -s 源文件 目标文件
 
 
 
+# 查看rosbag包含的msg及其时间戳
+
+# rqt_bag example.bag
+
+```c
+rqt_bag example.bag
+```
 
 
 
+![](/home/allen/图片/rqt_bag.png)
 
 
 
