@@ -33,6 +33,8 @@ sudo ln source_file target_file
 
 
 
+
+
 它的功能是为某一个文件或目录在另外一个位置建立一个同步的链接，类似Windows下的超级链接。
 
 这个命令最常用的参数是-s，具体用法是：
@@ -65,7 +67,16 @@ rqt_bag example.bag
 
 
 
-![](/home/allen/图片/rqt_bag.png)
+![rqt_bag](https://user-images.githubusercontent.com/59171742/145547895-414cf2e8-ccd1-42b2-9d3d-6430b0f6eb63.png)
 
 
+
+
+# 查看 rostopic的 header部分
+```c
+rostopic echo /example_topic/header
+
+eg.
+rostopic echo /mavros/local_position/pose/header
+```
 
