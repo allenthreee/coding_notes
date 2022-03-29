@@ -11,6 +11,12 @@ terminal 可以输出 checking file path
 ``` 
 set(FIND_DEBUG_MODE 1) 
 ```
+## 报错 
+error while loading shared libraries: libxxx.so : no such file or directory
+可以试一下 sudo ldconfig，
+it updates the cache for the linker in a UNIX environment with libraries found in the path
+"/etc/ld.so.conf", sudo ldconfig writes it to "/etc/ld.so.cache"
+
 
 ## 安装指令
 
