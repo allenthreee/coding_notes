@@ -6,7 +6,7 @@
 
 
 
-
+set(FIND_DEBUG_MODE 1)
 
 ## 安装指令
 
@@ -69,6 +69,10 @@ find_package(PCL 1.8 REQUIRED)
 这种模式下，find_package() 就可以快乐地自己指定package，就是我们上面说的自定义安装路径 `-DCMAKE_INSTALL_PREFIX`所设置的。然后我们通过下面的方法调用它：
 
 ```cmake
+#在CMakeLists.txt 前面加上这句话
+#terminal 可以输出 checking file path
+#这样就知道我们在哪个目录下找package了
+
 #这里这个路径就是我们上面指定的安装路径
 #好像只要文件夹包含 <package_name>Config.cmake 这个文件就可以，不用精确到最后面的路径
 #this list(APPEND)  seems dosen't work
