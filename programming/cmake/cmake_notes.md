@@ -9,7 +9,7 @@
 terminal 可以输出 checking file path
 这样就知道我们在哪个目录下找package了
 ``` 
-set(FIND_DEBUG_MODE 1) 
+set(CMAKE_FIND_DEBUG_MODE 1) 
 ```
 ## 报错 
 error while loading shared libraries: libxxx.so : no such file or directory
