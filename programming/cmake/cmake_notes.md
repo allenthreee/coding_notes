@@ -101,7 +101,7 @@ find_package (PCL REQUIRED NO_MODULE)
 这就是今天记录的东西，还是比较感动，加油，you can do it, your are going to be a professional coder.
 
 
-输出package 相关信息
+输出package 相关信息(以OpenCV为例)
 ```
 # If the package has been found, several variables will
 # be set, you can find the full list with descriptions
