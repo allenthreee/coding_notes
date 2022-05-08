@@ -101,6 +101,18 @@ find_package (PCL REQUIRED NO_MODULE)
 这就是今天记录的东西，还是比较感动，加油，you can do it, your are going to be a professional coder.
 
 
+输出package 相关信息
+```
+# If the package has been found, several variables will
+# be set, you can find the full list with descriptions
+# in the OpenCVConfig.cmake file.
+# Print some message showing some of them
+message(STATUS "OpenCV library status:")
+message(STATUS "    config: ${OpenCV_DIR}")
+message(STATUS "    version: ${OpenCV_VERSION}")
+message(STATUS "    libraries: ${OpenCV_LIBS}")
+message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+```
 
 
 
